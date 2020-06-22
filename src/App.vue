@@ -60,7 +60,8 @@ export default {
       drawer: false,
       pages: [
         {title: 'Домой', icon: "mdi-home", url: '/'},
-        {title: 'Банлист', icon: "mdi-lock", url: '/bans'}
+        {title: 'Банлист', icon: "mdi-lock", url: '/bans'},
+        {title: 'Донат', icon: "mdi-currency-usd", url: '/donate'}
       ],
     }
   }

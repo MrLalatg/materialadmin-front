@@ -1,6 +1,6 @@
 <template>
     <v-app>
-
+        Бета тест :)
     </v-app>
 </template>
 
