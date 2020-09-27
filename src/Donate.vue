@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-col align-self="center" style="width: 20%" class="d-flex; flex-column">
-            <v-form class="align-content-center">
+            <v-form class="align-content-center" ref="donateForm">
                 <v-select label="Вип-группа" :items="vipGroups" v-model="selectedGroup" outlined :rules="[rules.required]"></v-select>
                 <v-select label="Время" :items="timeOptions" v-model="selectedTime" outlined :rules="[rules.required]"></v-select>
                 <v-switch label="NON-STEAM" v-model="nonSteam"></v-switch>
@@ -9,7 +9,7 @@
                 <v-container class="d-flex justify-space-between">
                     <v-btn small color="primary" @click.native="calculatePrice">Рассчитать стоимость</v-btn>
                     {{price}}
-                    <v-btn small color="green">Оплатить</v-btn>
+                    <v-btn small color="green" @click="buy">Оплатить</v-btn>
                 </v-container>
             </v-form>
         </v-col>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
         name: "Donate",
         data: function () {
@@ -106,8 +108,15 @@
                         this.error = "Выберите группу!"
                 }
             },
-            calculateSignature(){
-                
+            buy(){
+              if (!this.$refs.donateForm.validate()){
+                return;
+              }
+              axios.get(`http://localhost:80/api/generate_link?sum=${this.price}&account=${this.validSteamId}&desc=Статус ${this.selectedGroup} на ${this.selectedTime} дней`).then(response => {
+                window.open(response.data, '_blank');
+              }).catch(err => {
+                console.log(err);
+              });
             }
         },
         watch: {
